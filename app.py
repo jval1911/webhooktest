@@ -14,20 +14,20 @@ def home():
 
 @app.route('/webhook', methods=['POST'])
 def handle_webhook():
+    print("=== WEBHOOK HIT ===", flush=True)
     try:
         data = request.json
-        print(f"Webhook received at {datetime.now()}: {data}")
+        print(f"Full request data: {data}", flush=True)
         
-        if data.get('type') == 'form_submission':
+        if data and data.get('type') == 'form_submission':
             epidescription = data.get('data', {}).get('epidescription')
-            print(f"EPI Description: {epidescription}")
-            
-            # Add your processing logic here
-            # For example: save to database, send email, etc.
+            print(f"EPI Description extracted: {epidescription}", flush=True)
+        else:
+            print("No form_submission type found", flush=True)
             
         return jsonify({"status": "success", "received": True}), 200
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"ERROR: {e}", flush=True)
         return jsonify({"status": "error", "message": str(e)}), 400
 
 if __name__ == '__main__':
