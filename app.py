@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -15,14 +16,15 @@ def home():
 def handle_webhook():
     try:
         data = request.json
-        print(f"Webhook received: {data}")
+        print(f"Webhook received at {datetime.now()}: {data}")
         
-        # Process your Softr data here
         if data.get('type') == 'form_submission':
-            name = data.get('data', {}).get('name')
-            email = data.get('data', {}).get('email')
-            print(f"New form: {name} - {email}")
-        
+            epidescription = data.get('data', {}).get('epidescription')
+            print(f"EPI Description: {epidescription}")
+            
+            # Add your processing logic here
+            # For example: save to database, send email, etc.
+            
         return jsonify({"status": "success", "received": True}), 200
     except Exception as e:
         print(f"Error: {e}")
