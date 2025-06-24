@@ -1,25 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask
 import os
 
 app = Flask(__name__)
 
 @app.route('/')
-def home():
-    return jsonify({
-        "status": "running", 
-        "message": "Webhook server is live",
-        "endpoints": ["/webhook"]
-    })
-
-@app.route('/webhook', methods=['POST'])
-def handle_webhook():
-    try:
-        data = request.json
-        print(f"Webhook received: {data}")
-        return jsonify({"status": "success", "received": True}), 200
-    except Exception as e:
-        print(f"Error: {e}")
-        return jsonify({"status": "error", "message": str(e)}), 400
+def hello():
+    return "Hello from Render!"
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
