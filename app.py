@@ -19,12 +19,10 @@ def handle_webhook():
         data = request.json
         print(f"Full request data: {data}", flush=True)
         
-        if data and data.get('type') == 'form_submission':
-            epidescription = data.get('data', {}).get('epidescription')
-            print(f"EPI Description extracted: {epidescription}", flush=True)
-        else:
-            print("No form_submission type found", flush=True)
-            
+        # Get epidescription directly (not nested in 'data')
+        epidescription = data.get('epidescription')
+        print(f"EPI Description: {epidescription}", flush=True)
+        
         return jsonify({"status": "success", "received": True}), 200
     except Exception as e:
         print(f"ERROR: {e}", flush=True)
